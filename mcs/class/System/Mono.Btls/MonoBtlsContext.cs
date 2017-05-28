@@ -74,6 +74,15 @@ namespace Mono.Btls
 				nativeServerCertificate = GetPrivateCertificate (serverCertificate);
 		}
 
+		~MonoBtlsContext ()
+		{
+			System.Console.WriteLine("~MonoBtlsContext () calling Close");
+			//MonoBtlsContext is the owner of these objects, and they're not
+			//automatically released by GC because of GCHandle.Alloc usage.
+			//Call Close manually to make sure everything is disposed.
+			Close ();
+		}
+
 		static X509CertificateImplBtls GetPrivateCertificate (X509Certificate certificate)
 		{
 			var impl = certificate.Impl as X509CertificateImplBtls;
@@ -361,6 +370,7 @@ namespace Mono.Btls
 		public override void Close ()
 		{
 			Debug ("Close!");
+			Console.WriteLine("BtlsContext Close");
 
 			if (ssl != null) {
 				ssl.Dispose ();
