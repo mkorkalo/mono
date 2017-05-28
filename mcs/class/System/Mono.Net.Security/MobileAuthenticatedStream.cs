@@ -62,6 +62,14 @@ namespace Mono.Net.Security
 			writeBuffer = new BufferOffsetSize2 (16384);
 		}
 
+		~MobileAuthenticatedStream()
+		{
+			if (xobileTlsContext != null) {
+				Console.WriteLine("~MobileAuthenticatedStream calling Dispose()");
+				Dispose();
+			}
+		}
+
 		public SslStream SslStream {
 			get;
 		}
