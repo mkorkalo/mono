@@ -64,10 +64,8 @@ namespace Mono.Net.Security
 
 		~MobileAuthenticatedStream()
 		{
-			if (xobileTlsContext != null) {
-				Console.WriteLine("~MobileAuthenticatedStream calling Dispose()");
-				Dispose();
-			}
+			//Calling dispose here might be necessary because we have GCHandles preventing GC from touching these.
+			Dispose();
 		}
 
 		public SslStream SslStream {
